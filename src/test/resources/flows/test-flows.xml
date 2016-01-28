@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 				responseTimeout="10000" doc:name="Get Next Customer Number from SAP">
                 <sap:definition><![CDATA[<BAPI_CUSTOMER_GETINTNUMBER type="function">
 	<import>
-			<ACCOUNTGROUP type="field" sapType="CHAR" sapLength="4">ZAG2</ACCOUNTGROUP>
+			<ACCOUNTGROUP type="field" sapType="CHAR" sapLength="4">ZAG1</ACCOUNTGROUP>
 	</import>
 </BAPI_CUSTOMER_GETINTNUMBER>]]></sap:definition>
 
@@ -40,12 +40,12 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 				DIRECT: "2",
 				IDOCTYP: "DEBMAS01",
 				MESTYP: "DEBMAS",
-				SNDPOR: "MULESOFT",
+				SNDPOR: "MULE01_LS",
 				SNDPRT: "LS",
-				SNDPRN: "MULESOFT",
-				RCVPOR: "MULESOFT",
+				SNDPRN: "MULE01_LS",
+				RCVPOR: "T90CLNT090",
 				RCVPRT: "LS",
-				RCVPRN: "MULESOFT"
+				RCVPRN: "T90CLNT090"
 			},
 			E1KNA1M @(SEGMENT: "1"): {
 				MSGFN: "009",
@@ -115,12 +115,12 @@ payload."BAPI_CUSTOMER_FIND".tables."RESULT_TAB".*row map {
 	</sub-flow>
 	<sub-flow name="deleteAccountsFromSapFlow" >
 		<foreach doc:name="For Each">
-            <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="SAP" type="function" functionName="ZMULE_CUSTOMER_DELETE" xmlVersion="2" outputXml="true" evaluateFunctionResponse="true" responseTimeout="10000" doc:name="Delete Customer from SAP">
-                <sap:definition><![CDATA[<ZMULE_CUSTOMER_DELETE type="function">
+            <sap:outbound-endpoint exchange-pattern="request-response" connector-ref="SAP" type="function" functionName="ZCAFM_CUSTOMER_DELETE" xmlVersion="2" outputXml="true" evaluateFunctionResponse="true" responseTimeout="10000" doc:name="Delete Customer from SAP">
+                <sap:definition><![CDATA[<ZCAFM_CUSTOMER_DELETE type="function">
 	<import>
-			<I_CUSTOMER type="field">#[payload]</I_CUSTOMER>
+			<PI_CUSTOMER type="field">#[payload]</PI_CUSTOMER>
 	</import>
-</ZMULE_CUSTOMER_DELETE>
+</ZCAFM_CUSTOMER_DELETE>
 ]]></sap:definition>
 
             </sap:outbound-endpoint>
